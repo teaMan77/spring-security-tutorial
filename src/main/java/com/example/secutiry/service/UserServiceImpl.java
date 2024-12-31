@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Calendar;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -69,5 +70,18 @@ public class UserServiceImpl implements UserService{
         userRepository.save(user);
 
         return "valid";
+    }
+
+    @Override
+    public VerificationToken resendNewVerificationToken(String oldToken) {
+        VerificationToken verificationToken = verificationTokenRepository.findByToken(oldToken);
+        if (verificationToken == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid Token...");
+        }
+
+        String newToken = UUID.randomUUID().toString();
+        verificationToken.setToken(newToken);
+
+        return verificationTokenRepository.save(verificationToken);
     }
 }
