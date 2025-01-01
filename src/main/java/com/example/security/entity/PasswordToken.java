@@ -23,6 +23,8 @@ public class PasswordToken {
 
     private Date expirationTime;
 
+    private boolean isUsed = false;
+
     @OneToOne
     @JoinColumn(
             name = "user_id",

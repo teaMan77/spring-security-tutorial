@@ -11,8 +11,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 
@@ -66,8 +68,22 @@ public class RegistrationController {
         return "User Not Found...";
     }
 
+    @PostMapping("/saveNewPassword")
+    public String setNewPassword(@RequestParam("token") String token, @RequestBody PasswordModel passwordModel) {
+        if (passwordModel.getNewPassword().equals(passwordModel.getConfirmPassword())) {
+            String result = userService.validatePasswordToken(token, passwordModel);
+
+            if (result.equalsIgnoreCase("valid"))
+                return "Password Reset Successfully...";
+            else
+                return result;
+        }
+
+        return "New password must match with the confirm password...";
+    }
+
     private void sendResetPasswordMail(String token, String applicationUrl) {
-         String url = applicationUrl + "/verifyPasswordToken?token=" + token;
+         String url = applicationUrl + "/saveNewPassword?token=" + token;
         //implement mailing functionality -- TO DO
         log.info("Please click the link to reset your password: {}", url);
     }

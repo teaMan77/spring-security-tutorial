@@ -2,6 +2,7 @@ package com.example.security.service;
 
 import com.example.security.entity.User;
 import com.example.security.entity.VerificationToken;
+import com.example.security.model.PasswordModel;
 import com.example.security.model.UserModel;
 
 public interface UserService {
@@ -16,4 +17,6 @@ public interface UserService {
     User getUserByEmail(String email);
 
     void createPasswordToken(User user, String token);
+
+    String validatePasswordToken(String token, PasswordModel passwordModel);
 }

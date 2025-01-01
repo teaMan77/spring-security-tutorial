@@ -3,6 +3,7 @@ package com.example.security.service;
 import com.example.security.entity.PasswordToken;
 import com.example.security.entity.User;
 import com.example.security.entity.VerificationToken;
+import com.example.security.model.PasswordModel;
 import com.example.security.model.UserModel;
 import com.example.security.repository.PasswordTokenRepository;
 import com.example.security.repository.UserRepository;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Calendar;
@@ -97,7 +99,43 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void createPasswordToken(User user, String token) {
-        PasswordToken passwordToken = new PasswordToken(user, token);
-        passwordTokenRepository.save(passwordToken);
+        PasswordToken passwordToken = passwordTokenRepository.findByUserId(user.getId());
+
+        if (passwordToken != null) {
+            passwordTokenRepository.delete(passwordToken);
+            PasswordToken newPasswordToken = new PasswordToken(user, token);
+            passwordTokenRepository.save(newPasswordToken);
+        } else {
+            PasswordToken newPasswordToken = new PasswordToken(user, token);
+            passwordTokenRepository.save(newPasswordToken);
+        }
+    }
+
+    @Override
+    @Transactional
+    public String validatePasswordToken(String token, PasswordModel passwordModel) {
+        PasswordToken passwordToken = passwordTokenRepository.findByToken(token);
+
+        if (passwordToken == null) {
+            return "Invalid User Token";
+        }
+
+        User user = passwordToken.getUser();
+        Calendar calendar = Calendar.getInstance();
+
+        if (passwordToken.getExpirationTime().getTime() - calendar.getTime().getTime() <= 0) {
+            passwordTokenRepository.delete(passwordToken);
+            return "Token Expired";
+        }
+
+        if (!passwordToken.isUsed()) {
+            user.setPassword(passwordEncoder.encode(passwordModel.getNewPassword()));
+            passwordToken.setUsed(true);
+            userRepository.save(user);
+            return "valid";
+        } else {
+            return "Link Expired...";
+        }
+
     }
 }
