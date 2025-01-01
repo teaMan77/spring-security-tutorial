@@ -1,8 +1,10 @@
 package com.example.security.controller;
 
+import com.example.security.entity.PasswordToken;
 import com.example.security.entity.User;
 import com.example.security.entity.VerificationToken;
 import com.example.security.event.RegistrationCompleteEvent;
+import com.example.security.model.PasswordModel;
 import com.example.security.model.UserModel;
 import com.example.security.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @Slf4j
@@ -46,6 +50,26 @@ public class RegistrationController {
         VerificationToken newVerificationToken = userService.resendNewVerificationToken(oldToken);
         resendVerificationMail(newVerificationToken, applicationUrl(request));
         return "New Token Sent Successfully...";
+    }
+
+    @PostMapping("/resetPassword")
+    public String resetPassword(@RequestBody PasswordModel passwordModel, HttpServletRequest request) {
+        User user = userService.getUserByEmail(passwordModel.getEmail());
+
+        if (user != null) {
+            String token = UUID.randomUUID().toString();
+            userService.createPasswordToken(user, token);
+
+            sendResetPasswordMail(token, applicationUrl(request));
+            return "Reset Password Link Sent Successfully...";
+        }
+        return "User Not Found...";
+    }
+
+    private void sendResetPasswordMail(String token, String applicationUrl) {
+         String url = applicationUrl + "/verifyPasswordToken?token=" + token;
+        //implement mailing functionality -- TO DO
+        log.info("Please click the link to reset your password: {}", url);
     }
 
     private void resendVerificationMail(VerificationToken newVerificationToken, String applicationUrl) {

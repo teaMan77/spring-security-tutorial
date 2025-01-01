@@ -1,8 +1,10 @@
 package com.example.security.service;
 
+import com.example.security.entity.PasswordToken;
 import com.example.security.entity.User;
 import com.example.security.entity.VerificationToken;
 import com.example.security.model.UserModel;
+import com.example.security.repository.PasswordTokenRepository;
 import com.example.security.repository.UserRepository;
 import com.example.security.repository.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private VerificationTokenRepository verificationTokenRepository;
+
+    @Autowired
+    private PasswordTokenRepository passwordTokenRepository;
 
     @Override
     public User registerUser(UserModel userModel) {
@@ -83,5 +88,16 @@ public class UserServiceImpl implements UserService{
         verificationToken.setToken(newToken);
 
         return verificationTokenRepository.save(verificationToken);
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
+    }
+
+    @Override
+    public void createPasswordToken(User user, String token) {
+        PasswordToken passwordToken = new PasswordToken(user, token);
+        passwordTokenRepository.save(passwordToken);
     }
 }
