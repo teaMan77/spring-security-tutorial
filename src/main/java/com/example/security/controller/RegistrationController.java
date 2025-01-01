@@ -1,10 +1,10 @@
-package com.example.secutiry.controller;
+package com.example.security.controller;
 
-import com.example.secutiry.entity.User;
-import com.example.secutiry.entity.VerificationToken;
-import com.example.secutiry.event.RegistrationCompleteEvent;
-import com.example.secutiry.model.UserModel;
-import com.example.secutiry.service.UserService;
+import com.example.security.entity.User;
+import com.example.security.entity.VerificationToken;
+import com.example.security.event.RegistrationCompleteEvent;
+import com.example.security.model.UserModel;
+import com.example.security.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

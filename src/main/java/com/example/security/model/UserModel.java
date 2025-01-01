@@ -1,4 +1,4 @@
-package com.example.secutiry.model;
+package com.example.security.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

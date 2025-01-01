@@ -1,8 +1,8 @@
-package com.example.secutiry.listener;
+package com.example.security.listener;
 
-import com.example.secutiry.entity.User;
-import com.example.secutiry.event.RegistrationCompleteEvent;
-import com.example.secutiry.service.UserService;
+import com.example.security.entity.User;
+import com.example.security.event.RegistrationCompleteEvent;
+import com.example.security.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;

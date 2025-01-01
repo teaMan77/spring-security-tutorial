@@ -1,4 +1,4 @@
-package com.example.secutiry;
+package com.example.security;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

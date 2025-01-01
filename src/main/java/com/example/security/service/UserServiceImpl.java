@@ -1,10 +1,10 @@
-package com.example.secutiry.service;
+package com.example.security.service;
 
-import com.example.secutiry.entity.User;
-import com.example.secutiry.entity.VerificationToken;
-import com.example.secutiry.model.UserModel;
-import com.example.secutiry.repository.UserRepository;
-import com.example.secutiry.repository.VerificationTokenRepository;
+import com.example.security.entity.User;
+import com.example.security.entity.VerificationToken;
+import com.example.security.model.UserModel;
+import com.example.security.repository.UserRepository;
+import com.example.security.repository.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;

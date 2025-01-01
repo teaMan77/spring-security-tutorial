@@ -1,6 +1,6 @@
-package com.example.secutiry.event;
+package com.example.security.event;
 
-import com.example.secutiry.entity.User;
+import com.example.security.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;

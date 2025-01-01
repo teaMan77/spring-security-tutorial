@@ -1,8 +1,8 @@
-package com.example.secutiry.service;
+package com.example.security.service;
 
-import com.example.secutiry.entity.User;
-import com.example.secutiry.entity.VerificationToken;
-import com.example.secutiry.model.UserModel;
+import com.example.security.entity.User;
+import com.example.security.entity.VerificationToken;
+import com.example.security.model.UserModel;
 
 public interface UserService {
     User registerUser(UserModel userModel);
