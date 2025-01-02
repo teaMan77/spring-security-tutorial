@@ -82,6 +82,22 @@ public class RegistrationController {
         return "New password must match with the confirm password...";
     }
 
+    @PostMapping("/changePassword")
+    public String changePassword(@RequestBody PasswordModel passwordModel) {
+        if (passwordModel.getNewPassword().equals(passwordModel.getConfirmPassword())) {
+            User user = userService.getUserByEmail(passwordModel.getEmail());
+
+            if (user == null) {
+                return "User not found...";
+            }
+
+            return userService.validateAndChangePassword(user, passwordModel);
+        }
+
+        return "New password must match with the confirm password";
+
+    }
+
     private void sendResetPasswordMail(String token, String applicationUrl) {
          String url = applicationUrl + "/saveNewPassword?token=" + token;
         //implement mailing functionality -- TO DO

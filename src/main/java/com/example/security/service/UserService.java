@@ -19,4 +19,6 @@ public interface UserService {
     void createPasswordToken(User user, String token);
 
     String validatePasswordToken(String token, PasswordModel passwordModel);
+
+    String validateAndChangePassword(User user, PasswordModel passwordModel);
 }

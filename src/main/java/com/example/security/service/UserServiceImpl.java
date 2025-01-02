@@ -138,4 +138,15 @@ public class UserServiceImpl implements UserService{
         }
 
     }
+
+    @Override
+    public String validateAndChangePassword(User user, PasswordModel passwordModel) {
+        if (passwordEncoder.matches(passwordModel.getOldPassword(), user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(passwordModel.getNewPassword()));
+            userRepository.save(user);
+            return "Password changed successfully...";
+        }
+
+        return "Incorrect old password...";
+    }
 }

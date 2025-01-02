@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PasswordModel {
     private String email;
+    private String oldPassword;
     private String newPassword;
     private String confirmPassword;
 }

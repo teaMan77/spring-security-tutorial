@@ -19,7 +19,8 @@ public class WebSecurityConfig {
             "/verifyRegistration",
             "/resendVerificationToken",
             "/resetPassword",
-            "/saveNewPassword"
+            "/saveNewPassword",
+            "/changePassword"
     };
 
     @Bean
